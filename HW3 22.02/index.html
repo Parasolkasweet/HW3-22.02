@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- Итеративное решение -->
+    function hanoiIterative(n, fromRod, toRod, auxRod) {
+        let moves = [];
+        let totalMoves = Math.pow(2, n) - 1;
+    
+        // Для четного количества дисков меняем местами стержни toRod и auxRod
+        if (n % 2 === 0) {
+            let temp = toRod;
+            toRod = auxRod;
+            auxRod = temp;
+        }
+    
+        for (let i = n; i >= 1; i--) {
+            moves.push([i, fromRod, toRod]);
+        }
+    
+        for (let i = 1; i < totalMoves; i++) {
+            if (i % 3 === 1) {
+                moveDisk(moves, fromRod, auxRod);
+            } else if (i % 3 === 2) {
+                moveDisk(moves, fromRod, toRod);
+            } else if (i % 3 === 0) {
+                moveDisk(moves, auxRod, toRod);
+            }
+        }
+    }
+    
+    function moveDisk(moves, fromRod, toRod) {
+        let move = moves.pop();
+        console.log(`Move disk ${move[0]} from ${fromRod} to ${toRod}`);
+    }
+    
+    hanoiIterative(3, 'Left', 'Right', 'Middle');
+
+    <!-- Рекурсия -->
+    function hanoiRecursive(n, fromRod, toRod, auxRod) {
+        if (n === 1) {
+            console.log(`Move disk 1 from ${fromRod} to ${toRod}`);
+            return;
+        }
+    
+        hanoiRecursive(n - 1, fromRod, auxRod, toRod);
+        console.log(`Move disk ${n} from ${fromRod} to ${toRod}`);
+        hanoiRecursive(n - 1, auxRod, toRod, fromRod);
+    }
+    
+    hanoiRecursive(3, 'Left', 'Right', 'Middle');
+</body>
+</html>
